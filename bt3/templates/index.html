@@ -1,9 +1,7 @@
 {% extends "base.html" %}
-
-{% block title %}Trang chủ - Sông Hương{% endblock %}
-
+{% block title %}Trang chủ{% endblock %}
 {% block content %}
-    <h1>Chào mừng đến với {{ shop.name }}</h1>
-    <p>Địa chỉ: {{ shop.address }}</p>
-    <p>Hãy khám phá thực đơn thơm ngon của chúng tôi!</p>
-{% endblock %}
+<h1>Chào mừng đến với {{ shop.name }}</h1>
+<p>Địa chỉ: {{ shop.address }}</p>
+<p>Điện thoại: {{ shop.phone }}</p>
+{% endblock %}  

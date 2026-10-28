@@ -1,9 +1,8 @@
 {% extends "base.html" %}
-
-{% block title %}Liên hệ - Sông Hương{% endblock %}
-
+{% block title %}Liên hệ - {{ shop.name }}{% endblock %}
 {% block content %}
-    <h2>Thông tin liên hệ</h2>
-    <p><strong>Điện thoại:</strong> {{ shop.phone }}</p>
-    <p><strong>Địa chỉ:</strong> {{ shop.address }}</p>
+<h1>Liên hệ</h1>
+<p>Địa chỉ: {{ shop.address }}</p>
+<p>Điện thoại: {{ shop.phone }}</p>
+<p>Email: {{ shop.email }}</p>
 {% endblock %}

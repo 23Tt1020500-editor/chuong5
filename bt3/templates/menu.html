@@ -1,28 +1,32 @@
 {% extends "base.html" %}
-
-{% block title %}Thực đơn - Sông Hương{% endblock %}
-
-{% block styles %}
-    {# Giữ lại CSS chung từ base.html #}
-    {{ super() }}
-    
-    {# Bổ sung CSS riêng cho trang thực đơn #}
-    <style>
-        .menu-list { list-style: none; padding: 0; }
-        .menu-item { background: #fff; border: 1px solid #ddd; padding: 12px 16px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; }
-        .menu-item .price { font-weight: bold; color: #e67e22; }
-    </style>
-{% endblock %}
-
+{% block title %}Menu - {{ shop.name }}{% endblock %}
 {% block content %}
-    <h2>Thực Đơn Quán ({{ menu|length }} món)</h2>
-    <br>
-    <ul class="menu-list">
-        {% for item in menu %}
-        <li class="menu-item">
-            <span>{{ loop.index }}. {{ item.name | title }}</span>
-            <span class="price">{{ item.price | vnd }}</span>
-        </li>
-        {% endfor %}
-    </ul>
+<h1>Menu</h1>
+
+<p>
+  Tổng số món: {{ total_items }} |
+  Còn hàng: {{ available_count }} |
+  Giá trung bình: {{ avg_price | vnd }}
+</p>
+
+<table>
+  <tr>
+    <th>STT</th>
+    <th>Tên món</th>
+    <th>Giá</th>
+    <th>Tình trạng</th>
+  </tr>
+  {% for item in menu %}
+  <tr>
+    <td>{{ loop.index }}</td>
+    <td>{{ item.name }}</td>
+    <td>{{ item.price | vnd }}</td>
+    <td>
+      {% if item.available %}Còn hàng{% else %}<span class="out">Hết hàng</span>{% endif %}
+    </td>
+  </tr>
+  {% else %}
+  <tr><td colspan="4">Chưa có món nào.</td></tr>
+  {% endfor %}
+</table>
 {% endblock %}

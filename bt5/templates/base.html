@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Tính chỉ số BMI{% endblock %}</title>
+  <style>
+    body {
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      margin: 0;
+      background-color: #dff3e4;
+      color: #234;
+    }
+    header {
+      background-color: #2e9e6b;
+      color: #fff;
+      text-align: center;
+      padding: 18px;
+      border-bottom: 6px solid #1c6b47;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+    header p {
+      margin: 4px 0 0;
+      font-size: 14px;
+    }
+    main {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      background-color: #fff;
+      border: 2px solid #2e9e6b;
+      border-left: 10px solid #2e9e6b;
+    }
+    .row {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px;
+      font-size: 16px;
+      border: 2px solid #9bc9ae;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #2e9e6b;
+    }
+    .error {
+      color: #d62828;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #2e9e6b;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1c6b47;
+    }
+    .result {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 2px dashed #9bc9ae;
+      text-align: center;
+    }
+    .bmi-number {
+      font-size: 46px;
+      font-weight: bold;
+      margin: 0;
+    }
+    .label-text {
+      display: inline-block;
+      padding: 4px 18px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .thieu { background-color: #3b8de0; }
+    .binhthuong { background-color: #2e9e6b; }
+    .thuacan { background-color: #e8a010; }
+    .beophi { background-color: #d62828; }
+
+    .scale {
+      position: relative;
+      display: flex;
+      height: 18px;
+      margin: 34px 0 6px;
+    }
+    .scale div { height: 100%; }
+    .s1 { width: 17.5%; background-color: #3b8de0; }
+    .s2 { width: 22.5%; background-color: #2e9e6b; }
+    .s3 { width: 10%; background-color: #e8a010; }
+    .s4 { width: 50%; background-color: #d62828; }
+    .marker {
+      position: absolute;
+      top: -24px;
+      margin-left: -8px;
+      font-size: 18px;
+      color: #234;
+    }
+    .scale-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #678;
+    }
+    .note {
+      margin-top: 18px;
+      padding: 10px;
+      background-color: #eef8f1;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tính chỉ số BMI</h1>
+    <p>Chuẩn phân loại dành cho người châu Á</p>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Máy tính - {{ shop.name }}{% endblock %}
+{% block content %}
+<h1>Máy tính cơ bản</h1>
+
+<form method="POST" action="{{ url_for('calc') }}">
+  <div>
+    <label>Số thứ nhất</label>
+    <input type="text" name="a" value="{{ a }}">
+    {% if errors.a %}<small class="error">{{ errors.a }}</small>{% endif %}
+  </div>
+
+  <div>
+    <label>Phép toán</label>
+    <select name="op">
+      {% for key, label in ops.items() %}
+      <option value="{{ key }}" {% if key == op %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    {% if errors.op %}<small class="error">{{ errors.op }}</small>{% endif %}
+  </div>
+
+  <div>
+    <label>Số thứ hai</label>
+    <input type="text" name="b" value="{{ b }}">
+    {% if errors.b %}<small class="error">{{ errors.b }}</small>{% endif %}
+  </div>
+
+  <button type="submit">Tính</button>
+</form>
+
+{% if result %}
+<h2>Kết quả: {{ result }}</h2>
+{% endif %}
+{% endblock %}

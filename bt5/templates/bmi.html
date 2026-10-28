@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Tính chỉ số BMI{% endblock %}
+{% block content %}
+<form method="POST" action="{{ url_for('bmi') }}">
+  <div class="row">
+    <label>Chiều cao (cm)</label>
+    <input type="text" name="h" value="{{ values.h }}" placeholder="Ví dụ: 165">
+    {% if errors.h %}<div class="error">{{ errors.h }}</div>{% endif %}
+  </div>
+
+  <div class="row">
+    <label>Cân nặng (kg)</label>
+    <input type="text" name="w" value="{{ values.w }}" placeholder="Ví dụ: 55,5">
+    {% if errors.w %}<div class="error">{{ errors.w }}</div>{% endif %}
+  </div>
+
+  <button type="submit">Tính BMI</button>
+</form>
+
+{% if result %}
+<div class="result">
+  <p>Chỉ số BMI của bạn</p>
+  <p class="bmi-number">{{ result.bmi }}</p>
+  <span class="label-text {{ result.key }}">{{ result.text }}</span>
+
+  <div class="scale">
+    <span class="marker" style="left: {{ result.pos }}%;">▼</span>
+    <div class="s1"></div>
+    <div class="s2"></div>
+    <div class="s3"></div>
+    <div class="s4"></div>
+  </div>
+  <div class="scale-text">
+    <span>15</span>
+    <span>18,5</span>
+    <span>23</span>
+    <span>25</span>
+    <span>35</span>
+  </div>
+
+  <div class="note">
+    Với chiều cao này, cân nặng bình thường là
+    <b>{{ result.low }} - {{ result.high }} kg</b>
+    (BMI từ 18,5 đến 22,9).
+  </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}BT4{% endblock %}</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #e0ecff, #f5f7fb);
+      min-height: 100vh;
+      color: #222;
+    }
+    header {
+      background: #2563eb;
+      color: #fff;
+      padding: 16px 24px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    main {
+      max-width: 480px;
+      margin: 32px auto;
+      padding: 0 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+    h1 { margin: 0 0 20px; font-size: 22px; text-align: center; color: #1e3a8a; }
+    .field { margin-bottom: 16px; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+    input.invalid { border-color: #dc2626; }
+    .error { color: #dc2626; font-size: 13px; margin-top: 4px; display: block; }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    .result {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 10px;
+      text-align: center;
+      background: #f1f5f9;
+    }
+    .result .score { font-size: 32px; font-weight: 700; }
+    .result .letter {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 16px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .letter-A { background: #16a34a; }
+    .letter-B { background: #2563eb; }
+    .letter-C { background: #ca8a04; }
+    .letter-D { background: #ea580c; }
+    .letter-F { background: #dc2626; }
+    .note { margin-top: 10px; color: #dc2626; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <header>Tính điểm học phần</header>
+  <main>
+    <div class="card">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</body>
+</html>

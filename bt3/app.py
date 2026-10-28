@@ -1,27 +1,30 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# Thông tin quán
 SHOP = {
-    "name": "Cà phê Sông Hương",
-    "address": "12 Lê Lợi, Huế",
-    "phone": "0234 3888 999",
+    "name": "Quán Cà Phê Mộc",
+    "address": "123 Lê Lợi, Huế",
+    "phone": "0123 456 789",
+    "email": "contact@quancfmoc.vn",
 }
 
-# Danh sách thực đơn 7 món
 MENU = [
-    {"id": 1, "name": "cà phê đen", "price": 20000, "image": "ca-phe-den.jpg"},
-    {"id": 2, "name": "cà phê sữa", "price": 25000, "image": "ca-phe-sua.jpg"},
-    {"id": 3, "name": "bạc xỉu", "price": 30000, "image": "bac-xiu.jpg"},
-    {"id": 4, "name": "trà đào", "price": 35000, "image": "tra-dao.jpg"},
-    {"id": 5, "name": "trà vải", "price": 35000, "image": "tra-vai.jpg"},
-    {"id": 6, "name": "nước cam", "price": 40000, "image": "nuoc-cam.jpg"},
-    {"id": 7, "name": "sinh tố bơ", "price": 45000, "image": "sinh-to-bo.jpg"},
+    {"name": "Cà phê đen", "price": 20000, "available": True},
+    {"name": "Cà phê sữa", "price": 25000, "available": True},
+    {"name": "Bạc xỉu", "price": 30000, "available": False},
+    {"name": "Trà đào", "price": 35000, "available": True},
+    {"name": "Nước cam", "price": 40000, "available": True},
 ]
 
+OPS = {"+": "+", "-": "−", "*": "×", "/": "/"}
 
-# Filter định dạng tiền tệ vnd
+
+@app.context_processor
+def inject_shop():
+    return {"shop": SHOP}
+
+
 @app.template_filter("vnd")
 def format_vnd(value):
     try:
@@ -30,28 +33,106 @@ def format_vnd(value):
         return f"{value} đ"
 
 
-# Route Trang chủ (/) -> gọi index.html
+def parse_number(raw):
+    return float(raw.strip().replace(",", "."))
+
+
+def fmt(x):
+    return str(int(x)) if x == int(x) else str(round(x, 10))
+
+
+def calculate(a_raw, b_raw, op):
+    errors = {}
+    a = None
+    b = None
+
+    try:
+        a = parse_number(a_raw)
+    except ValueError:
+        errors["a"] = "Số thứ nhất không phải là số"
+
+    try:
+        b = parse_number(b_raw)
+    except ValueError:
+        errors["b"] = "Số thứ hai không phải là số"
+
+    if op not in OPS:
+        errors["op"] = "Phép toán không hợp lệ"
+
+    if errors:
+        return errors, None
+
+    if op == "/" and b == 0:
+        errors["b"] = "Không thể chia cho 0"
+        return errors, None
+
+    if op == "+":
+        r = a + b
+    elif op == "-":
+        r = a - b
+    elif op == "*":
+        r = a * b
+    else:
+        r = a / b
+
+    return errors, f"{fmt(a)} {OPS[op]} {fmt(b)} = {fmt(r)}"
+
+
 @app.route("/")
 def index():
-    return render_template("index.html", shop=SHOP)
+    return render_template("index.html")
 
 
-# Route Thực đơn (/menu) -> gọi menu.html
 @app.route("/menu")
 def menu():
-    return render_template("menu.html", shop=SHOP, menu=MENU)
+    total_items = len(MENU)
+    available_count = sum(1 for m in MENU if m["available"])
+    if total_items > 0:
+        avg_price = sum(m["price"] for m in MENU) / total_items
+    else:
+        avg_price = 0
+    return render_template(
+        "menu.html",
+        menu=MENU,
+        total_items=total_items,
+        available_count=available_count,
+        avg_price=avg_price,
+    )
 
 
-# Route Liên hệ (/contact) -> gọi contact.html
 @app.route("/contact")
 def contact():
-    return render_template("contact.html", shop=SHOP)
+    return render_template("contact.html")
 
 
-# Route Lỗi 404 -> gọi 404.html
+@app.route("/calc", methods=["GET", "POST"])
+def calc():
+    a_raw = ""
+    b_raw = ""
+    op = "+"
+    errors = {}
+    result = None
+
+    if request.method == "POST":
+        a_raw = request.form.get("a", "")
+        b_raw = request.form.get("b", "")
+        op = request.form.get("op", "")
+        errors, result = calculate(a_raw, b_raw, op)
+
+    return render_template(
+        "calc.html",
+        a=a_raw,
+        b=b_raw,
+        op=op,
+        errors=errors,
+        result=result,
+        ops=OPS,
+    )
+
+
 @app.errorhandler(404)
-def page_not_found(e):
-    return render_template("404.html", shop=SHOP), 404
+def not_found(e):
+    return render_template("404.html"), 404
 
 
 if __name__ == "__main__":

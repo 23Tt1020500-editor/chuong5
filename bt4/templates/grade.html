@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Tính điểm học phần{% endblock %}
+{% block content %}
+<h1>Nhập điểm thành phần</h1>
+
+<form method="POST" action="{{ url_for('grade') }}">
+  <div class="field">
+    <label>Chuyên cần (10%)</label>
+    <input type="text" name="cc" value="{{ values.cc }}"
+           placeholder="0 - 10" class="{{ 'invalid' if errors.cc }}">
+    {% if errors.cc %}<small class="error">{{ errors.cc }}</small>{% endif %}
+  </div>
+
+  <div class="field">
+    <label>Giữa kỳ (30%)</label>
+    <input type="text" name="gk" value="{{ values.gk }}"
+           placeholder="0 - 10" class="{{ 'invalid' if errors.gk }}">
+    {% if errors.gk %}<small class="error">{{ errors.gk }}</small>{% endif %}
+  </div>
+
+  <div class="field">
+    <label>Cuối kỳ (60%)</label>
+    <input type="text" name="ck" value="{{ values.ck }}"
+           placeholder="0 - 10" class="{{ 'invalid' if errors.ck }}">
+    {% if errors.ck %}<small class="error">{{ errors.ck }}</small>{% endif %}
+  </div>
+
+  <button type="submit">Tính điểm</button>
+</form>
+
+{% if result %}
+<div class="result">
+  <div>Điểm học phần</div>
+  <div class="score">{{ result.score }}</div>
+  <span class="letter letter-{{ result.letter }}">{{ result.letter }}</span>
+  {% if result.liet %}
+  <p class="note">Điểm cuối kỳ dưới 1: điểm liệt, xếp F.</p>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}
